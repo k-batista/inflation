@@ -3,11 +3,11 @@
 
 (def db-uri "datomic:dev://localhost:4334/inflation")
 
-(defn abre-conexao []
+(defn connection []
   (d/create-database db-uri)
   (d/connect db-uri))
 
-(defn apaga-banco []
+(defn drop-db []
   (d/delete-database db-uri))
 
 (def schema [{:db/ident       :price/country
@@ -31,7 +31,7 @@
               :db/cardinality :db.cardinality/one
               :db/doc         "month"}])
 
-(defn cria-schema [conn]
+(defn create-schema [conn]
   (d/transact conn schema))
 
 (defn all-prices [db]

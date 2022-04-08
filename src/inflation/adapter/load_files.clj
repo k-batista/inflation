@@ -7,9 +7,9 @@
    [clojure.data.csv :as csv]
    [clojure.java.io :as io]))
 
-(def conn (db/abre-conexao))
+(def conn (db/connection))
 
-(db/cria-schema conn)
+(db/create-schema conn)
 
 (defn insert-entity [salary]
   (prn salary)

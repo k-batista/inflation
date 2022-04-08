@@ -8,7 +8,7 @@
             [datomic.api :as d]
             [inflation.db.datomic.db :as db]))
 
-(def conn (db/abre-conexao))
+(def conn (db/connection))
 
 (defn teste []
   {})
