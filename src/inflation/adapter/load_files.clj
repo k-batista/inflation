@@ -11,9 +11,9 @@
 
 (db/create-schema conn)
 
-(defn insert-entity [salary]
-  (prn salary)
-  (d/transact conn [salary]))
+(defn insert-entity [entity]
+  (prn entity)
+  (d/transact conn [entity]))
 
 (defn read-file [filename] 
   (with-open [reader (io/reader filename)]
