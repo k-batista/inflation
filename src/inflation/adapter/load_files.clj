@@ -7,32 +7,32 @@
    [clojure.data.csv :as csv]
    [clojure.java.io :as io]))
 
-(def conn (db/connection))
 
-(db/create-schema conn)
-
-(defn insert-entity [entity]
+(defn insert-entity [entity connection]
   (prn entity)
-  (d/transact conn [entity]))
+  (d/transact connection [entity]))
 
 (defn read-file [filename] 
   (with-open [reader (io/reader filename)]
     (doall
      (csv/read-csv reader))))
 
-(defn create-price [item, country, type]
-  (let [value (bigdec (nth item 2))
-        month (long (Float/valueOf (nth item 1)))
-        year (long (Float/valueOf (nth item 0)))]
+(defn create-price [[year-str month-str value-str] country type]
+  (let [value (bigdec value-str)
+        month (long (Float/valueOf month-str))
+        year (long (Float/valueOf year-str))]
     (model/new-price country type value year month)))
 
-(defn load-file [filename country type]
+(defn load-file [connection filename country type]
   (doseq [item (read-file filename)]
     (-> item 
         (first)
         (str/split #";")
         (create-price country type)
-        (insert-entity))))
+        (insert-entity connection))))
 
-(load-file "resources/br_salary.csv" "BR" "SALARY")
-(load-file "resources/br_basic_food_basket.csv" "BR" "BFB")
+(defn load-data [connection]
+  (load-file connection "resources/br_salary.csv" "BR" "SALARY")
+  (load-file connection "resources/br_basic_food_basket.csv" "BR" "BFB")
+  (prn (db/all-prices (d/db connection)))
+  )
