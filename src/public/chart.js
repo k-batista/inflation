@@ -21,11 +21,11 @@ function drawChart() {
         const test = [['Price', 'Size']]
 
         const prices = {}
-        data.salary.forEach(element => {
+        data.SALARY.forEach(element => {
             prices[element.month + "-" + element.year] = element
         });
 
-        data.bfb.forEach(element => {
+        data.BFB.forEach(element => {
             if (element.year > 1996){
                 const salary = prices[element.month + "-" + element.year]
                 test.push([element.month + "-" + element.year, element.price * 100 / salary.price]);
