@@ -11,5 +11,6 @@
 (defn model->price [[element]]
   {:year (:price/year element)
    :month (:price/month element)
+   :date (str (:price/year element) (format "/%02d" (:price/month element)))
    :price (:price/value element)
    :type (:price/type element)})

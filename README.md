@@ -13,6 +13,12 @@ lein run server
 Data
 https://www.dieese.org.br/
 
+GAS
+https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/precos-revenda-e-de-distribuicao-combustiveis/serie-historica-do-levantamento-de-precos
+
+Power Energy
+https://portalrelatorios.aneel.gov.br/mercado/cativo#!
+
 ## License
 
 Copyright © 2022 FIXME

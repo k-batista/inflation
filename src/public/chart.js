@@ -5,33 +5,43 @@ function drawChart() {
     //     ['Price', 'Size'],[50, 10]
     // ]);
     const chart = new google.visualization.LineChart(document.getElementById('myChart'));
-        
-    
+
+
     // Set Options
     var options = {
-        title: 'Salário Mínimo x Cesta Básica',
-        hAxis: { title: 'Periodo' },
-        vAxis: { title: 'Porcentagem custo da cesta sobre o salário' },
+        title: 'Basic Salary vs Prices',
+        hAxis: { title: 'Period' },
+        vAxis: { title: 'Percentage prices on salary' },
         legend: 'none'
     };
 
-    fetch('/prices')
-    .then(response => response.json())
-    .then(data => {
-        const test = [['Price', 'Size']]
+    const keys = [{ key: 'BFB', factor: 1 },
+    { key: 'GASOLINE', factor: 100 },
+    { key: 'ELECTRICAL_POWER', factor: 1}]
 
-        const prices = {}
-        data.SALARY.forEach(element => {
-            prices[element.month + "-" + element.year] = element
-        });
+    fetch('/prices-by-date')
+        .then(response => response.json())
+        .then(data => {
+            const prices = [['Price', 'Basic Food Basket', '100l Gasoline', 'R$/MWh Energy']]
 
-        data.BFB.forEach(element => {
-            if (element.year > 1996){
-                const salary = prices[element.month + "-" + element.year]
-                test.push([element.month + "-" + element.year, element.price * 100 / salary.price]);
+            for (const key in data) {
+                if (Object.hasOwnProperty.call(data, key)) {
+                    const element = data[key];
+                    if(element['SALARY']){
+                        const salary = element['SALARY'][0];
+                        const line = [key]
+                        for (const elementKey of keys) {
+                            if (element[elementKey.key]) {
+                                line.push((element[elementKey.key][0].price * elementKey.factor) * 100 / salary.price)
+                            }
+                        }
+                        if (line.length === keys.length + 1) {
+                            prices.push(line);
+                        }
+                    }
+                }
             }
+            const dataChart = google.visualization.arrayToDataTable(prices);
+            chart.draw(dataChart, options);
         });
-        const dataChart = google.visualization.arrayToDataTable(test);
-        chart.draw(dataChart, options);
-    });
 }

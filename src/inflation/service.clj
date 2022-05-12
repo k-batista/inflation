@@ -11,4 +11,5 @@
    (GET "/" [] pages/home-page)
    (GET "/api" [] (response (price-controller/default components)))
    (GET "/prices" [] (response (price-controller/prices components)))
+   (GET "/prices-by-date" [] (response (price-controller/prices-by-date components)))
    (not-found "Not Found")))
