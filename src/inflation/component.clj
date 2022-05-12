@@ -1,10 +1,11 @@
 (ns inflation.component
   (:require [com.stuartsierra.component :as component]
-            [ring.middleware.json :as json]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [inflation.db.datomic.schema :as schema]
+            [inflation.adapter.load_files :as load-files]
             [inflation.db.datomic.db :as db]
-            [inflation.service :as service]))
+            [inflation.db.datomic.schema :as schema]
+            [inflation.service :as service]
+            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+            [ring.middleware.json :as json]))
 
 ;; (def db-uri "datomic:dev://localhost:4334/inflation")
 (def db-uri "datomic:mem://inflation")
@@ -23,6 +24,7 @@
          (let [conn (db/connection db-uri)]
           (println ";; Starting database")
            (schema/create-schema conn)
+           (load-files/load-data conn)
            conn))
 
   (stop [this]
