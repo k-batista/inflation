@@ -28,11 +28,11 @@ function drawChart() {
                 if (Object.hasOwnProperty.call(data, key)) {
                     const element = data[key];
                     if(element['SALARY']){
-                        const salary = element['SALARY'][0];
+                        const salary = element['SALARY'];
                         const line = [key]
                         for (const elementKey of keys) {
                             if (element[elementKey.key]) {
-                                line.push((element[elementKey.key][0].price * elementKey.factor) * 100 / salary.price)
+                                line.push((element[elementKey.key].price * elementKey.factor) * 100 / salary.price)
                             }
                         }
                         if (line.length === keys.length + 1) {

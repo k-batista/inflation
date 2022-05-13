@@ -20,5 +20,5 @@
 (defn prices-by-date [{connection :db-connection}]
   (->> (all-prices connection)
        (group-by :date)
-       (map (fn [[k v]] {k (group-by :type v)}))
+       (map (fn [[k v]] {k (update-vals (group-by :type v) first)}))
        (into (sorted-map))))
