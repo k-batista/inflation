@@ -1,9 +1,10 @@
 (ns inflation.server
-  (:require [org.httpkit.server :as server]
-            [ring.middleware.reload :refer [wrap-reload]]
-            [com.stuartsierra.component :refer [stop]]
+  (:require [com.stuartsierra.component :refer [stop]]
+            [inflation.adapter.load_files :as load-files]
             [inflation.component :as component]
-            [inflation.adapter.load_files :as load-files])
+            [inflation.controller.price :refer [prices-by-date]]
+            [org.httpkit.server :as server]
+            [ring.middleware.reload :refer [wrap-reload]])
   (:gen-class))
 
 (def system-port
@@ -41,3 +42,6 @@
   (load-files/load-data (-> @system*
                             :components
                             :db-connection)))
+
+(defn teste []
+  (prices-by-date (-> @system* :components)))

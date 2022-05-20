@@ -34,5 +34,7 @@
 (defn load-data [connection]
   (load-file connection "resources/br_salary.csv" "BR" "SALARY")
   (load-file connection "resources/br_basic_food_basket.csv" "BR" "BFB")
+  (load-file connection "resources/br_gasoline.csv" "BR"  "GASOLINE")
+  (load-file connection "resources/br_electrical_power.csv" "BR"  "ELECTRICAL_POWER")
   (prn (db/all-prices (d/db connection)))
   )
